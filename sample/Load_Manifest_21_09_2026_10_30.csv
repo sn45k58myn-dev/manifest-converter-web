@@ -1,0 +1,7 @@
+Route Vehicle Name,Scheduled At (Last Stop),Customer Name (First Stop),Order External ID,Customer (Last Stop),Service Plan,Customer Phone,Unused,Total Original Weight,Original Quantity,Inventory Name (Last Stop),Inventory ID
+Vehicle A,2026/09/21 08:00:00,,1060000001_1-2001,"Normal customer, first",Standard,,,10.5,1,Ordinary product,5000000000001
+Vehicle A,2026/09/21 08:10:00,,1060000002_1-2002,Bulky customer one,Standard,,,26.5,1,3253929001413-STORE IT OUT MAX GREY,3253929001413
+Vehicle A,2026/09/21 08:20:00,,E1060000003_1B-2003,Trade customer,Standard,,,5,2,Ordinary trade product,5000000000003
+Vehicle A,2026/09/21 08:30:00,,1060000004_1-2004,Bulky customer two,Standard,,,18,1,7290112634276-KETER STORE IT OUT MIDI 880L,7290112634276
+Vehicle A,2026/09/21 08:30:00,,1060000004_1-2004,Bulky customer two,Standard,,,2,1,Accessory for Keter order,7290112634277
+Vehicle B,2026/09/21 09:00:00,,1060000005_1-2005,Other vehicle customer,Standard,,,12,3,Ordinary product B,5000000000005

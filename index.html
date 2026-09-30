@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Convert delivery manifest CSV files into formatted Excel workbooks in your browser."
+    />
+    <meta name="referrer" content="no-referrer" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'"
+    />
+    <meta name="theme-color" content="#16384c" />
+    <title>Manifest Converter</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to converter</a>
+
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" role="img">
+            <path d="M10 8h20l8 8v24H10z" />
+            <path d="M30 8v9h8M16 25h16M16 31h16" />
+          </svg>
+        </div>
+        <div>
+          <p class="eyebrow">Delivery workbook tool</p>
+          <h1>Manifest Converter</h1>
+        </div>
+        <div class="privacy-badge">
+          <span class="privacy-dot" aria-hidden="true"></span>
+          Local browser processing
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" class="page-shell">
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="section-kicker">CSV to Excel</p>
+          <h2 id="page-title">Create a driver-ready workbook</h2>
+          <p>
+            Select one manifest CSV. The conversion happens on this device and
+            the finished Excel workbook downloads when it is ready.
+          </p>
+        </div>
+        <div class="privacy-note">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3 5 6v5c0 4.5 2.8 8.4 7 10 4.2-1.6 7-5.5 7-10V6z" />
+            <path d="m9.5 12 1.7 1.7 3.6-4" />
+          </svg>
+          <span>Your CSV is not uploaded by this app.</span>
+        </div>
+      </section>
+
+      <div class="workspace-grid">
+        <section class="card converter-card" aria-labelledby="convert-heading">
+          <div class="card-heading">
+            <div>
+              <span class="step-number">1</span>
+              <div>
+                <h3 id="convert-heading">Choose the manifest</h3>
+                <p>Use the original 12-column CSV export.</p>
+              </div>
+            </div>
+          </div>
+
+          <input
+            id="file-input"
+            class="visually-hidden"
+            type="file"
+            accept=".csv,text/csv"
+            tabindex="-1"
+          />
+          <button id="file-trigger" class="drop-zone" type="button">
+            <span class="drop-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32">
+                <path d="M7 4h12l6 6v18H7z" />
+                <path d="M19 4v7h6M16 14v9M12.5 17.5 16 14l3.5 3.5" />
+              </svg>
+            </span>
+            <span class="drop-primary">Drop a CSV here</span>
+            <span class="drop-secondary">or select a file from this computer</span>
+            <span class="select-file-label">Select CSV</span>
+          </button>
+
+          <div id="file-summary" class="file-summary" hidden>
+            <div class="file-type" aria-hidden="true">CSV</div>
+            <div class="file-details">
+              <strong id="file-name"></strong>
+              <span id="file-meta"></span>
+            </div>
+            <button id="remove-file" class="icon-button" type="button" aria-label="Remove selected file">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m7 7 10 10M17 7 7 17" />
+              </svg>
+            </button>
+          </div>
+
+          <div id="status-panel" class="status-panel" role="status" aria-live="polite">
+            <div class="status-icon" aria-hidden="true"></div>
+            <div>
+              <strong id="status-title">No manifest selected</strong>
+              <p id="status-message">Choose a CSV to review it before conversion.</p>
+            </div>
+          </div>
+
+          <button id="convert-button" class="primary-button" type="button" disabled>
+            <span class="button-spinner" aria-hidden="true"></span>
+            <svg class="button-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v12M7 10l5 5 5-5M5 20h14" />
+            </svg>
+            <span id="convert-button-label">Convert and download</span>
+          </button>
+
+          <p class="format-note">
+            Output: one worksheet per vehicle, Code128 barcodes, A4 landscape and fit to width.
+          </p>
+        </section>
+
+        <aside class="card preferences-card" aria-labelledby="preferences-heading">
+          <div class="card-heading preferences-heading-row">
+            <div>
+              <span class="step-number">2</span>
+              <div>
+                <h3 id="preferences-heading">Preferences</h3>
+                <p>Saved in this browser.</p>
+              </div>
+            </div>
+            <button id="reset-preferences" class="text-button" type="button">Reset</button>
+          </div>
+
+          <form id="preferences-form" class="preferences-form">
+            <label class="preference-row">
+              <span>
+                <strong>Bulky items first</strong>
+                <small>Sort matching orders to the top of each vehicle.</small>
+              </span>
+              <input name="bulkyItemsFirst" type="checkbox" role="switch" />
+            </label>
+
+            <div class="keyword-field">
+              <label for="bulky-keywords">Bulky item keywords</label>
+              <textarea id="bulky-keywords" name="bulkyKeywords" rows="3" spellcheck="false"></textarea>
+              <small>Enter one phrase per line.</small>
+            </div>
+
+            <label class="preference-row">
+              <span>
+                <strong>STH&amp;BULK note</strong>
+                <small>Add the existing bulky-pick note.</small>
+              </span>
+              <input name="includeBulkPickNote" type="checkbox" role="switch" />
+            </label>
+
+            <label class="preference-row">
+              <span>
+                <strong>Trade/Redelivery note</strong>
+                <small>Flag E-prefixed orders.</small>
+              </span>
+              <input name="includeTradeRedeliveryNote" type="checkbox" role="switch" />
+            </label>
+
+            <label class="preference-row">
+              <span>
+                <strong>Include Items column</strong>
+                <small>Output inventory names for each delivery.</small>
+              </span>
+              <input name="includeItems" type="checkbox" role="switch" />
+            </label>
+
+            <label class="preference-row">
+              <span>
+                <strong>Delivery borders</strong>
+                <small>Add bold horizontal separators between deliveries.</small>
+              </span>
+              <input name="addDeliveryBorders" type="checkbox" role="switch" />
+            </label>
+          </form>
+          <p id="preference-status" class="preference-status" aria-live="polite"></p>
+        </aside>
+      </div>
+
+      <section class="browser-limit" aria-labelledby="automatic-heading">
+        <div class="limit-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M4 7h6l2 2h8v10H4z" />
+            <path d="M8 4h8M12 4v3" />
+          </svg>
+        </div>
+        <div>
+          <h3 id="automatic-heading">Need automatic folder watching?</h3>
+          <p>
+            Use the Windows edition for the Incoming and Converted folder workflow.
+            Browsers require a person to select each CSV.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>Manifest Converter Web</span>
+      <span>Developed by Chris Ryan</span>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
